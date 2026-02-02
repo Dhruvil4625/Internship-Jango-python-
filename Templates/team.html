@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=7``, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>2026 IPL Team View </h1>
+    <h1>Team name : {{Name}}</h1>
+    <h2>Trophy : {{Trophy}} time Champion</h2>
+    <h2>Squdmember : {{squadmember}}
+
+        
+   {% for i in squadmember %}
+    <h3>{{ forloop.counter }}.{{ i }}</h3>
+{% endfor %}
+<h1>----------------------------</h1>
+{% if Trophy <= 5 %}
+     <h2>Amzing Performance by Team</h3>
+    {% else %}
+      <h2>The team should improve its Performance for the upcoming season</h3>
+{% endif %}
+
+    
+</body>
+</html>

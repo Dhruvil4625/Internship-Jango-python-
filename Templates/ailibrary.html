@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=7``, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Title name : {{Name}}</h1>
+    <h2>Main Purpose : {{Focus}}</h2>
+    <h3>Total Libraries Used: {{ LibraryCount }}</h3>
+    <h2>Libraries : {{ Libraries}}
+
+  {% for i in Libraries %}
+    <h3>{{ forloop.counter }}. {{ i }}</h3>
+{% endfor %}
+
+<h1>----------------------------</h1>
+ {% if LibraryCount > 8 %}
+     <p>Library count: {{ LibraryCount }}</p>
+        <p>Wow! There are a lot of AI/ML libraries to explore!</p>
+    {% else %}
+        <p>Fewer libraries, easier to get started!</p>
+    
+{% endif %}
+
+    
+</body>
+</html>
