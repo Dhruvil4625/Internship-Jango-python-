@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+
+    <h1>Welcome to Student App</h1>
+    <p>This is the home page of our Student App.</p>
+
+    <hr>
+
+    <nav>
+       <nav>
+    <a href="{% url 'student_home' %}">Student Home</a> |
+    <a href="{% url 'student_dashboard' %}">Dashboard</a>
+</nav>
+
+       
+    </nav>
+    <div>
+<nav>
+
+    <a href="{% url 'student_attendance' %}">student attendance</a>
+        <a href="{% url 'student_assignments' %}">student assignments</a>
+        <a href="{% url 'student_notices' %}">student notices</a>
+ </nav>
+    </div>
+ 
+     
+
+    <hr>
+
+    <p>
+        This project is created using Django as part of an internship.
+    </p>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        nav {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+        }
+        nav a {
+            color: white;
+            margin-right: 20px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 20px auto;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 8px rgba(0,0,0,0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        h2 {
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        ul {
+            line-height: 1.8;
+        }
+    </style>
+    <hr>
+
+</body>
+</html>
