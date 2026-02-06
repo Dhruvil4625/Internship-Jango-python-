@@ -1,4 +1,4 @@
-
+# updated model for internship
 
 from django.db import models
 
