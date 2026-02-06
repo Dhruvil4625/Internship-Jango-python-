@@ -37,5 +37,91 @@ class MarketingCampaign(models.Model):
 
     def __str__(self):
         return self.campaignName
+    
+    class UserAccount(models.Model):
+    username = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    role = models.CharField(max_length=50)  
+
+    class Meta:
+        db_table = "User_Account"
+
+    def __str__(self):
+        return self.username
+    
+class UserProfile(models.Model):
+    user = models.OneToOneField(UserAccount, on_delete=models.CASCADE)
+    bio = models.TextField()
+    phone = models.CharField(max_length=15)
+    country = models.CharField(max_length=50)
+
+    class Meta:
+        db_table = "User_Profile"
+
+    def __str__(self):
+        return self.user.username
+    
+class Course(models.Model):
+    instructor = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    course_name = models.CharField(max_length=100)
+    level = models.CharField(max_length=30)
+    price = models.IntegerField()
+
+    class Meta:
+        db_table = "Course"
+
+    def __str__(self):
+        return self.course_name
+    
+class Enrollment(models.Model):
+    user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    enrolled_on = models.DateField(auto_now_add=True)
+    progress = models.IntegerField(default=0)
+
+class Meta:
+        db_table = "Enrollment"
+
+def __str__(self):
+        return f"{self.user.username} - {self.course.course_name}"
+    
+class AdCreative(models.Model):
+    campaign = models.ForeignKey(
+        MarketingCampaign,
+        on_delete=models.CASCADE,
+        related_name="ad_creatives")
+    title = models.CharField(max_length=100)
+    ad_type = models.CharField(max_length=50)  
+    content = models.TextField()
+    status = models.CharField(max_length=20)  
+
+    class Meta:
+        db_table = "AdCreative"
+
+    def __str__(self):
+        return f"{self.title} ({self.campaign.campaign_name})"
+    
+class Lead(models.Model):
+    campaign = models.ForeignKey(
+        MarketingCampaign,
+        on_delete=models.CASCADE,
+        related_name="leads")
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    source = models.CharField(max_length=50)  
+    is_converted = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "Lead"
+
+    def __str__(self):
+        return self.name
+
+
+
+    
+
+
+    
 
 
