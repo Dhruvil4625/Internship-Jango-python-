@@ -1,0 +1,21 @@
+<h2>Filtered Employees (Salary > 30000)</h2>
+
+<a href="{% url 'employee_list' %}">Back to List</a>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Salary</th>
+        <th>Department</th>
+    </tr>
+
+    {% for i in data %}
+    <tr>
+        <td>{{ i.name }}</td>
+        <td>{{ i.email }}</td>
+        <td>{{ i.salary }}</td>
+        <td>{{ i.department }}</td>
+    </tr>
+    {% endfor %}
+</table>
