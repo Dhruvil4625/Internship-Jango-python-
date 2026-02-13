@@ -30,4 +30,13 @@ urlpatterns = [
     path('recipe/',views.recipe),
     path('team/',views.team),
     path('library',views.python_library),
+
+       #app level url config
+
+    path("student/",include("student.urls")),
+    path("test/",include("test1.urls")),
+    path("test/",include("employee.urls")),
+    path("employee/", include("employee.urls")),
+    path('services1/', include('services1.urls')),
+
 ]
