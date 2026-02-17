@@ -1,0 +1,21 @@
+*   [33m51788e6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Merge branch 'main' of https://github.com/Dhruvil4625/Internship-Jango-python-
+[31m|[m[32m\[m  
+[31m|[m * [33mec93f72[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Revise README for Learning26 Django Project
+[31m|[m * [33me8d2386[m add tamplates of todays task
+[31m|[m * [33m2a9dcfa[m Add service form HTML template
+[31m|[m * [33mb8bb0c0[m Create servicesForm.html
+[31m|[m * [33m1112ce6[m add all tempates of employee
+[31m|[m * [33m7e3354b[m Add employee list table with sorting and actions
+[31m|[m * [33m46d4055[m Create course.html
+[31m|[m * [33m2431d08[m Update URL configuration with app-level includes
+[31m|[m * [33m93613cb[m Update Django settings with new applications
+[31m|[m * [33mbf1ee10[m push all functional file of services1
+[31m|[m * [33m1320133[m services1 migration files push here
+[31m|[m * [33md016d2f[m Create migration files
+[31m|[m * [33mc11a5ba[m employee all working files push here
+[31m|[m * [33m8a61446[m employee migration file upload
+[31m|[m * [33maae84e6[m Create migratins file
+[31m|[m * [33m2994f35[m all migrate tables
+[31m|[m * [33maceb9eb[m Create tabels
+[31m|[m * [33med69546[m  new app
+[31m|[m * [33m861bbc7[m Create weekend task

@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<div class="bg-dynamic">
+    <canvas id="aurora"></canvas>
+  </div>
 <section class="hero">
     <h1>Welcome to Learning26</h1>
     <p>Your unified hub for Student, Employee, and Services management.</p>
@@ -60,4 +64,8 @@
         <span class="cta">Open</span>
     </a>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/aurora.js' %}" defer></script>
 {% endblock %}
