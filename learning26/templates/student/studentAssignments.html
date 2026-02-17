@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Assignments{% endblock %}
+
+{% block content %}
+<h1>Assignments</h1>
+{% for a in assignments %}
+  <p>
+    {{ forloop.counter }}. {{ a.title }} —
+    {% if a.status == "Completed" %}
+      <span style="color: green;">Completed</span>
+    {% elif a.status == "Submitted" %}
+      <span style="color: blue;">Submitted</span>
+    {% else %}
+      <span style="color: red;">Pending</span>
+    {% endif %}
+  </p>
+{% endfor %}
+{% endblock %}

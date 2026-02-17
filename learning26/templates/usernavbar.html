@@ -1,0 +1,35 @@
+<nav class="navbar">
+    <div class="logo">
+        <a href="/">Learning26</a>
+    </div>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+
+        {% if request.path|slice:":9" == "/employee" %}
+            <li class="nav-section">Employee</li>
+            <li><a href="{% url 'employee_list' %}">List</a></li>
+            <li><a href="{% url 'employee_create' %}">Create</a></li>
+            <li><a href="{% url 'employee_filter' %}">Filter</a></li>
+        {% endif %}
+
+        {% if request.path|slice:":10" == "/services1" %}
+            <li class="nav-section">Services</li>
+            <li><a href="{% url 'service_list' %}">List</a></li>
+            <li><a href="{% url 'service_create' %}">Create</a></li>
+        {% endif %}
+
+        {% if request.path|slice:":8" == "/student" %}
+            <li class="nav-section">Student</li>
+            <li><a href="{% url 'student_home' %}">Home</a></li>
+            <li><a href="{% url 'student_dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'student_attendance' %}">Attendance</a></li>
+            <li><a href="{% url 'student_assignments' %}">Assignments</a></li>
+            <li><a href="{% url 'student_notices' %}">Notices</a></li>
+        {% endif %}
+
+        {% if request.path|slice:":5" == "/test" %}
+            <li class="nav-section">Test1</li>
+            <li><a href="/test/">Home</a></li>
+        {% endif %}
+    </ul>
+</nav>

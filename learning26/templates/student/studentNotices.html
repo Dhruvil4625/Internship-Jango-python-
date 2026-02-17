@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Notices{% endblock %}
+
+{% block content %}
+<h1>Student Notices</h1>
+{% if notices %}
+  {% for notice in notices %}
+    <p>{{ forloop.counter }}. {{ notice }}</p>
+  {% endfor %}
+{% else %}
+  <p>No notices available</p>
+{% endif %}
+{% endblock %}

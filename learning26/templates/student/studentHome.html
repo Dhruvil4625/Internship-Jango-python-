@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Student App</h1>
+    <p>Quick links to student features</p>
+  </section>
+
+  <section class="app-grid">
+    <a class="card" href="{% url 'student_dashboard' %}">
+      <h2>Dashboard</h2>
+      <p>Overview of student info</p>
+      <span class="cta">Open</span>
+    </a>
+    <a class="card" href="{% url 'student_attendance' %}">
+      <h2>Attendance</h2>
+      <p>View attendance details</p>
+      <span class="cta">Open</span>
+    </a>
+    <a class="card" href="{% url 'student_assignments' %}">
+      <h2>Assignments</h2>
+      <p>Track and review status</p>
+      <span class="cta">Open</span>
+    </a>
+    <a class="card" href="{% url 'student_notices' %}">
+      <h2>Notices</h2>
+      <p>Latest announcements</p>
+      <span class="cta">Open</span>
+    </a>
+  </section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Attendance{% endblock %}
+
+{% block content %}
+<h1>Student Attendance</h1>
+<p>Total Classes: {{ total_classes }}</p>
+<p>Attended Classes: {{ attended_classes }}</p>
+<p>Attendance: {{ attendance_percentage }}%</p>
+
+{% if attendance_percentage >= 75 %}
+  <h3 style="color: green;">Eligible for Exam</h3>
+{% else %}
+  <h3 style="color: red;">Not Eligible for Exam</h3>
+{% endif %}
+{% endblock %}

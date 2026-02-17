@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Welcome to Learning26</h1>
+    <p>Your unified hub for Student, Employee, and Services management.</p>
+    <p style="margin-top:8px; opacity:0.9;">Developed by Dhruvil Ramolia</p>
+</section>
+
+<section class="app-grid">
+    <a class="card" href="/employee/list/">
+        <h2>Employee</h2>
+        <p>Browse, create, update, and filter employees.</p>
+        <span class="cta">Open</span>
+    </a>
+    <a class="card" href="/services1/list/">
+        <h2>Services</h2>
+        <p>Manage services, pricing, and availability.</p>
+        <span class="cta">Open</span>
+    </a>
+    <a class="card" href="/student/home/">
+        <h2>Student</h2>
+        <p>Access student dashboards, assignments, and notices.</p>
+        <span class="cta">Open</span>
+    </a>
+    <a class="card" href="/test">
+        <h2>Test1</h2>
+        <p>Practice relationships and orders.</p>
+        <span class="cta">Open</span>
+    </a>
+</section>
+
+<h2 style="margin-top:24px;">Explore</h2>
+<section class="app-grid">
+    <a class="card" href="/movies/">
+        <h2>Movies</h2>
+        <p>Latest and popular movies</p>
+        <span class="cta">Open</span>
+    </a>
+    <a class="card" href="/shows/">
+        <h2>Shows</h2>
+        <p>Trending TV shows</p>
+        <span class="cta">Open</span>
+    </a>
+    <a class="card" href="/news/">
+        <h2>News</h2>
+        <p>Recent updates and articles</p>
+        <span class="cta">Open</span>
+    </a>
+    <a class="card" href="/recipe/">
+        <h2>Recipe</h2>
+        <p>Featured recipe page</p>
+        <span class="cta">Open</span>
+    </a>
+    <a class="card" href="/team/">
+        <h2>Team</h2>
+        <p>Team details and highlights</p>
+        <span class="cta">Open</span>
+    </a>
+</section>
+{% endblock %}

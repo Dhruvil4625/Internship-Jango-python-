@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Employee List{% endblock %}
+
+{% block content %}
+<h1>Employee List</h1>
+
+<a href="{% url 'employee_create' %}">Create Employee</a> |
+<a href="{% url 'employee_filter' %}">Filter</a>
+
+<br><br>
+
+<b>Sort By:</b>
+<a href="?sort=id">ID ↑</a> |
+<a href="?sort=-id">ID ↓</a> |
+<a href="?sort=name">Name A-Z</a> |
+<a href="?sort=-name">Name Z-A</a>
+<br><br>
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Salary</th>
+        <th>Join Date</th>
+        <th>Post</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for emp in data %}
+    <tr>
+        <td>{{ emp.id }}</td>
+        <td>{{ emp.name }}</td>
+        <td>{{ emp.age }}</td>
+        <td>{{ emp.salary }}</td>
+        <td>{{ emp.join_date }}</td>
+        <td>{{ emp.post }}</td>
+        <td>
+            <a href="{% url 'employee_update' emp.id %}">Update</a> |
+            <a href="{% url 'employee_delete' emp.id %}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

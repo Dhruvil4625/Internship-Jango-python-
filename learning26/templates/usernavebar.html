@@ -1,0 +1,33 @@
+<nav class="navbar">
+    <div class="logo">
+        <a href="/">Learning26</a>
+    </div>
+
+    <ul class="nav-links">
+
+        <li><a href="/">Home</a></li>
+
+        <!-- Employee Menu -->
+        {% if request.path|slice:":9" == "/employee" %}
+        <li><a href="{% url 'employee_list' %}">Employee List</a></li>
+        <li><a href="{% url 'employee_create' %}">Create Employee</a></li>
+        {% endif %}
+
+        <!-- Services Menu -->
+        {% if request.path|slice:":10" == "/services1" %}
+        <li><a href="{% url 'service_list' %}">Service List</a></li>
+        <li><a href="{% url 'service_create' %}">Create Service</a></li>
+        {% endif %}
+
+        <!-- Student Menu -->
+        {% if request.path|slice:":8" == "/student" %}
+        <li><a href="/student/">Student Home</a></li>
+        {% endif %}
+
+        <!-- Test1 Menu -->
+        {% if request.path|slice:":6" == "/test1" %}
+        <li><a href="/test1/">Test1 Home</a></li>
+        {% endif %}
+
+    </ul>
+</nav>

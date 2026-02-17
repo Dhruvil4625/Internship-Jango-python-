@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Service Form{% endblock %}
+
+{% block content %}
+
+
+<h2>Service Form</h2>
+
+<a href="{% url 'service_list' %}">Back</a>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+</form>
+
+{% endblock %}

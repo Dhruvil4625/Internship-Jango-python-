@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Service Form{% endblock %}
+
+{% block content %}
+
+
+
+<h2>Service List</h2>
+
+<a href="{% url 'service_create' %}">Create Service</a>
+
+<table class="table table-striped table-hover">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Duration</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for s in data %}
+    <tr>
+        <td>{{ s.id }}</td>
+        <td>{{ s.service_name }}</td>
+        <td>{{ s.price }}</td>
+        <td>{{ s.duration }} days</td>
+        <td>{{ s.is_active }}</td>
+        <td>
+            <a href="{% url 'service_update' s.id %}">Update</a> |
+            <a href="{% url 'service_delete' s.id %}">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

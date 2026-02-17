@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About Us</title>
+</head>
+<body>
+    <h1>Student Dashboard</h1>
+    <p>This page is loading correctly.</p>
+    <h1> Student Dashboard</h1>
+
+<p><strong>Name:</strong> {{ student_name }}</p>
+<p><strong>Student ID:</strong> {{ student_id }}</p>
+<p><strong>Status:</strong> {{ status }}</p>
+<p><strong>Overall Progress:</strong> {{ progress }}%</p>
+
+<hr>
+
+<h2> Enrolled Courses ({{ course_count }})</h2>
+
+{% for course in courses %}
+    <p>{{ forloop.counter }}. {{ course }}</p>
+{% endfor %}
+{% if progress >= 75 %}
+    <p style="color: green;"> Excellent progress, keep going!</p>
+{% else %}
+    <p style="color: orange;"> Keep practicing to improve</p>
+{% endif %}
+
+
+</body>
+</html>
