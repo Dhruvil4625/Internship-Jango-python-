@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=7``, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <h1> Assignments</h1>
+
+{% for a in assignments %}
+    <p>
+        {{ forloop.counter }}. {{ a.title }} —
+        
+        {% if a.status == "Completed" %}
+            <span style="color: green;"> Completed</span>
+        {% elif a.status == "Submitted" %}
+            <span style="color: blue;"> Submitted</span>
+        {% else %}
+            <span style="color: red;"> Pending</span>
+        {% endif %}
+    </p>
+{% endfor %}
+
+    
+</body>
+</html>

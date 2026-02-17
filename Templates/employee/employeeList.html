@@ -1,0 +1,21 @@
+<h2>Employee List</h2>
+
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Salary</th>
+        <th>Department</th>
+        <th>Status</th>
+    </tr>
+
+    {% for i in data %}
+    <tr>
+        <td>{{ i.name }}</td>
+        <td>{{ i.email }}</td>
+        <td>{{ i.salary }}</td>
+        <td>{{ i.department }}</td>
+        <td>{{ i.status }}</td>
+    </tr>
+    {% endfor %}
+</table>

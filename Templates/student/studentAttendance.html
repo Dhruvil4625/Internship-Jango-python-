@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=7``, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <h1> Student Attendance</h1>
+
+<p>Total Classes: {{ total_classes }}</p>
+<p>Attended Classes: {{ attended_classes }}</p>
+<p>Attendance: {{ attendance_percentage }}%</p>
+
+{% if attendance_percentage >= 75 %}
+    <h3 style="color: green;"> Eligible for Exam</h3>
+{% else %}
+    <h3 style="color: red;"> Not Eligible for Exam</h3>
+{% endif %}
+
+    
+</body>
+</html>

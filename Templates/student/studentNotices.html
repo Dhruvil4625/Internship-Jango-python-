@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=7``, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <h1> Student Notices</h1>
+
+{% if notices %}
+    {% for notice in notices %}
+        <p>{{ forloop.counter }}. {{ notice }}</p>
+    {% endfor %}
+{% else %}
+    <p>No notices available</p>
+{% endif %}
+
+    
+</body>
+</html>
