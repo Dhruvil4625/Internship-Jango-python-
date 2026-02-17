@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var baseBubbles = 60;
   var fish = [];
   var plants = [];
+  var mouse = { x: 0.5, y: 0.3, active: false };
   function rand(min, max) { return Math.random() * (max - min) + min; }
   function seedBubbles() {
     bubbles.length = 0;
@@ -69,8 +70,9 @@ document.addEventListener("DOMContentLoaded", function () {
       fish.push({
         x: Math.random() * w,
         y: rand(h * 0.2, h * 0.8),
-        s: rand(0.6, 1.6),                // size scale
-        v: rand(30, 80) * dir,            // velocity
+        z: Math.random(),                  // depth 0..1
+        s: rand(0.7, 1.4),                 // base size scale
+        v: rand(30, 80) * dir,             // velocity
         a: rand(6, 16),                   // vertical wiggle amplitude
         k: rand(0.8, 1.6),                // wiggle speed
         hue: pick([200, 210, 220, 260, 170, 30]),
@@ -91,65 +93,136 @@ document.addEventListener("DOMContentLoaded", function () {
   function drawPlants() {
     var tnow = performance.now() / 1000;
     ctx.save();
-    plants.forEach(function (p) {
+    var ordered = plants.slice().sort(function (a, b) { return a.h - b.h; });
+    ordered.forEach(function (p) {
       var baseX = p.x * w;
+      var depth = (p.h - 120) / 100;
+      if (depth < 0) depth = 0;
+      if (depth > 1) depth = 1;
+      var alpha = 0.35 + depth * 0.55;
       var sway = Math.sin(tnow * p.sp + p.phase) * p.a;
-      var x0 = baseX + sway * 0.4;
-      var cp1x = baseX + sway * 0.8;
-      var cp2x = baseX + sway * 0.6;
-      var topY = h - p.h;
-      var grad = ctx.createLinearGradient(baseX, h, baseX, topY);
-      grad.addColorStop(0, "rgba(16,185,129,0.6)");
-      grad.addColorStop(1, p.col);
-      ctx.strokeStyle = grad;
-      ctx.lineWidth = p.w;
+      ctx.globalAlpha = alpha;
+      var blades = 3;
+      for (var i = 0; i < blades; i++) {
+        var offsetSide = i - 1;
+        var bladeOffset = offsetSide * (p.w * 1.8);
+        var bladeHeight = p.h * (0.7 + i * 0.15);
+        var x0 = baseX + bladeOffset + sway * (0.4 + i * 0.1);
+        var cp1x = baseX + bladeOffset + sway * (0.9 + i * 0.1);
+        var cp2x = baseX + bladeOffset + sway * (0.6 + i * 0.12);
+        var topY = h - bladeHeight;
+        var grad = ctx.createLinearGradient(x0, h, x0, topY);
+        grad.addColorStop(0, "rgba(4,47,46,0.95)");
+        grad.addColorStop(0.4, "rgba(16,185,129,0.9)");
+        grad.addColorStop(1, "rgba(45,212,191,0.55)");
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = p.w * (0.9 + i * 0.25);
+        ctx.beginPath();
+        ctx.moveTo(baseX + bladeOffset, h + 6);
+        ctx.bezierCurveTo(cp1x, h - bladeHeight * 0.4, cp2x, h - bladeHeight * 0.8, x0, topY);
+        ctx.stroke();
+        var tipLen = p.w * (3.2 + i);
+        var tipWidth = p.w * (1.3 + i * 0.3);
+        ctx.fillStyle = "rgba(94,234,212,0.8)";
+        ctx.beginPath();
+        ctx.ellipse(x0, topY + 4, tipWidth, tipLen, 0.4 * offsetSide, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      var highlightX = baseX + sway * 0.25;
+      var highlightTop = h - p.h * 0.9;
+      var highlightGrad = ctx.createLinearGradient(highlightX, h, highlightX, highlightTop);
+      highlightGrad.addColorStop(0, "rgba(0,0,0,0)");
+      highlightGrad.addColorStop(0.4, "rgba(190,242,100,0.4)");
+      highlightGrad.addColorStop(1, "rgba(190,242,100,0.0)");
+      ctx.strokeStyle = highlightGrad;
+      ctx.lineWidth = p.w * 0.5;
       ctx.beginPath();
-      ctx.moveTo(baseX, h + 4);
-      ctx.bezierCurveTo(cp1x, h - p.h * 0.4, cp2x, h - p.h * 0.7, x0, topY);
+      ctx.moveTo(highlightX, h);
+      ctx.bezierCurveTo(highlightX + sway * 0.4, h - p.h * 0.35, highlightX + sway * 0.6, h - p.h * 0.8, highlightX + sway * 0.3, highlightTop);
       ctx.stroke();
-      ctx.fillStyle = p.col;
-      ctx.beginPath();
-      ctx.ellipse(x0 + sway * 0.1, topY + 6, p.w * 1.2, p.w * 2.2, 0, 0, Math.PI * 2);
-      ctx.fill();
     });
     ctx.restore();
   }
 
   function drawFish(dt) {
     var tnow = performance.now() / 1000;
-    fish.forEach(function (f) {
-      f.x += f.v * dt;
+    var ordered = fish.slice().sort(function (a, b) { return a.z - b.z; });
+    ordered.forEach(function (f) {
+      var depth = f.z;
+      var speedFactor = 0.4 + (1 - depth) * 0.8;
+      f.x += f.v * dt * speedFactor;
       f.y += Math.sin(tnow * f.k + f.t0) * 0.5;
-      if (f.x < -60) { f.x = w + 60; f.y = rand(h * 0.2, h * 0.8); }
-      if (f.x > w + 60) { f.x = -60; f.y = rand(h * 0.2, h * 0.8); }
+      if (f.x < -80) { f.x = w + 80; f.y = rand(h * 0.2, h * 0.8); }
+      if (f.x > w + 80) { f.x = -80; f.y = rand(h * 0.2, h * 0.8); }
+      var scaleDepth = f.s * (0.7 + (1 - depth) * 0.9);
+      var alpha = 0.35 + (1 - depth) * 0.65;
       ctx.save();
+      ctx.globalAlpha = alpha;
       ctx.translate(f.x, f.y);
       if (f.v < 0) ctx.scale(-1, 1);
-      ctx.scale(f.s, f.s);
-      var bodyGrad = ctx.createLinearGradient(-20, 0, 24, 0);
-      bodyGrad.addColorStop(0, "hsla(" + f.hue + ", 80%, 65%, 0.9)");
-      bodyGrad.addColorStop(1, "hsla(" + (f.hue + 40) + ", 80%, 55%, 0.9)");
+      ctx.scale(scaleDepth, scaleDepth);
+      var bodyGrad = ctx.createLinearGradient(-26, -6, 30, 4);
+      bodyGrad.addColorStop(0, "hsla(" + (f.hue - 20) + ", 80%, 52%, 1)");
+      bodyGrad.addColorStop(0.4, "hsla(" + f.hue + ", 90%, 68%, 1)");
+      bodyGrad.addColorStop(0.9, "hsla(" + (f.hue + 35) + ", 90%, 58%, 1)");
       ctx.fillStyle = bodyGrad;
       ctx.beginPath();
       if (ctx.ellipse) {
-        ctx.ellipse(0, 0, 22, 12, 0, 0, Math.PI * 2);
+        ctx.ellipse(0, 0, 26, 14, 0, 0, Math.PI * 2);
       } else {
-        ctx.arc(0, 0, 18, 0, Math.PI * 2);
+        ctx.arc(0, 0, 20, 0, Math.PI * 2);
       }
       ctx.fill();
-      ctx.fillStyle = "hsla(" + (f.hue + 30) + ", 80%, 70%, 0.9)";
+      ctx.fillStyle = "hsla(" + (f.hue - 10) + ", 80%, 30%, 0.7)";
       ctx.beginPath();
-      ctx.moveTo(-22, 0);
-      ctx.lineTo(-36, 8);
-      ctx.lineTo(-36, -8);
-      ctx.closePath();
+      ctx.ellipse(-2, 4, 24, 9, 0, 0, Math.PI * 2);
       ctx.fill();
+      var highlight = ctx.createLinearGradient(-12, -9, 16, -2);
+      highlight.addColorStop(0, "rgba(255,255,255,0)");
+      highlight.addColorStop(0.5, "rgba(255,255,255,0.9)");
+      highlight.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = highlight;
+      ctx.beginPath();
+      ctx.ellipse(2, -5, 18, 5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "hsla(" + (f.hue + 40) + ", 90%, 75%, 0.8)";
+      ctx.beginPath();
+      ctx.moveTo(-26, 0);
+      ctx.quadraticCurveTo(-40, 10, -40, 0);
+      ctx.quadraticCurveTo(-40, -10, -26, 0);
+      ctx.fill();
+      ctx.fillStyle = "hsla(" + (f.hue + 60) + ", 95%, 78%, 0.7)";
+      ctx.beginPath();
+      ctx.moveTo(-10, -10);
+      ctx.quadraticCurveTo(-2, -18, 4, -12);
+      ctx.quadraticCurveTo(-4, -12, -10, -10);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(-6, 10);
+      ctx.quadraticCurveTo(0, 18, 6, 12);
+      ctx.quadraticCurveTo(-2, 12, -6, 10);
+      ctx.fill();
+      ctx.fillStyle = "hsla(" + (f.hue + 70) + ", 95%, 85%, 0.65)";
+      for (var i = 0; i < 3; i++) {
+        var px = -4 + i * 7;
+        ctx.beginPath();
+        ctx.moveTo(px, -8);
+        ctx.quadraticCurveTo(px + 3, 0, px, 8);
+        ctx.strokeStyle = "hsla(" + (f.hue + 70) + ", 95%, 85%, 0.6)";
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+      }
       ctx.fillStyle = "#0b1220";
       ctx.beginPath();
-      ctx.arc(10, -2, 2, 0, Math.PI * 2);
+      ctx.arc(10, -3, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,255,255,0.9)";
+      ctx.beginPath();
+      ctx.arc(11, -3.6, 0.9, 0, Math.PI * 2);
       ctx.fill();
       ctx.restore();
     });
+    ctx.globalAlpha = 1;
   }
 
   function resize() {
@@ -167,31 +240,39 @@ document.addEventListener("DOMContentLoaded", function () {
     draw(0, true);
   }
 
+  function drawSeaBackground(now) {
+    // Multi-level sea gradient
+    var grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0.0, "#0ea5e9");
+    grad.addColorStop(0.25, "#0b7bb7");
+    grad.addColorStop(0.55, "#0a4f8a");
+    grad.addColorStop(1.0, "#082f49");
+    ctx.globalCompositeOperation = "source-over";
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+
+    // Cursor spotlight tint
+    if (mouse.active) {
+      var x = mouse.x * w;
+      var y = mouse.y * h;
+      var r = Math.max(w, h) * 0.25;
+      var cg = ctx.createRadialGradient(x, y, 0, x, y, r);
+      cg.addColorStop(0, "rgba(34, 211, 238, 0.28)");
+      cg.addColorStop(0.6, "rgba(99, 102, 241, 0.16)");
+      cg.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.globalCompositeOperation = "screen";
+      ctx.fillStyle = cg;
+      ctx.fillRect(0, 0, w, h);
+    }
+  }
+
   function draw(dt, instant) {
     if (instant) t += 0.016;
     else t += dt;
     ctx.clearRect(0, 0, w, h);
-    ctx.globalCompositeOperation = "lighter";
 
-    var blobs = [
-      { x: 0.35 + 0.05 * Math.sin(t * 0.6), y: 0.3 + 0.06 * Math.cos(t * 0.5), r: 260, c: c1, a: 0.5 },
-      { x: 0.65 + 0.06 * Math.cos(t * 0.4), y: 0.35 + 0.05 * Math.sin(t * 0.7), r: 300, c: c2, a: 0.45 },
-      { x: 0.5 + 0.08 * Math.sin(t * 0.3), y: 0.65 + 0.07 * Math.cos(t * 0.35), r: 380, c: c3, a: 0.35 },
-    ];
-
-    blobs.forEach(function (b) {
-      var x = b.x * w;
-      var y = b.y * h;
-      var r = b.r + 20 * Math.sin(t * 0.8);
-      var g = ctx.createRadialGradient(x, y, 0, x, y, r);
-      g.addColorStop(0, hexToRgba(b.c, b.a));
-      g.addColorStop(0.6, hexToRgba(b.c, b.a * 0.18));
-      g.addColorStop(1, hexToRgba(b.c, 0));
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fill();
-    });
+    // Sea
+    drawSeaBackground(performance.now());
 
     if (!reduce) {
       // Plants behind fish
@@ -199,6 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Fish
       drawFish(dt);
       // Bubbles on top
+      ctx.globalCompositeOperation = "lighter";
       for (var i = 0; i < bubbles.length; i++) {
         var bub = bubbles[i];
         var bx = bub.x * w;
@@ -278,5 +360,15 @@ document.addEventListener("DOMContentLoaded", function () {
     var x = e.clientX - rect.left;
     var y = e.clientY - rect.top;
     burst(x, y, 28);
+  });
+
+  document.addEventListener("pointermove", function (e) {
+    var rect = canvas.getBoundingClientRect();
+    mouse.x = (e.clientX - rect.left) / Math.max(1, rect.width);
+    mouse.y = (e.clientY - rect.top) / Math.max(1, rect.height);
+    mouse.active = true;
+  });
+  document.addEventListener("pointerleave", function () {
+    mouse.active = false;
   });
 });
