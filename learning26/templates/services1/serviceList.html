@@ -18,14 +18,54 @@
     </div>
 </div>
 
+<form class="row g-2 mb-3" method="get">
+    <div class="col-md-4">
+        <input type="text" class="form-control" name="q" value="{{ request.GET.q }}" placeholder="Search by name">
+    </div>
+    <div class="col-md-3">
+        <select class="form-select" name="categoryId">
+            <option value="">All categories</option>
+            {% for c in categories %}
+            <option value="{{ c.id }}" {% if request.GET.categoryId == c.id|stringformat:'s' %}selected{% endif %}>{{ c.categoryName }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <select class="form-select" name="status">
+            <option value="">All status</option>
+            <option value="active" {% if request.GET.status == 'active' %}selected{% endif %}>Active</option>
+            <option value="inactive" {% if request.GET.status == 'inactive' %}selected{% endif %}>Inactive</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <div class="input-group">
+            <input type="number" class="form-control" name="price_min" value="{{ request.GET.price_min }}" placeholder="Min price">
+            <input type="number" class="form-control" name="price_max" value="{{ request.GET.price_max }}" placeholder="Max price">
+            <button class="btn btn-outline-primary" type="submit">Apply</button>
+        </div>
+    </div>
+    <div class="col-12">
+        <select class="form-select form-select-sm w-auto d-inline" name="order" onchange="this.form.submit()">
+            <option value="-id" {% if request.GET.order == '-id' or not request.GET.order %}selected{% endif %}>Newest</option>
+            <option value="id" {% if request.GET.order == 'id' %}selected{% endif %}>Oldest</option>
+            <option value="price" {% if request.GET.order == 'price' %}selected{% endif %}>Price ↑</option>
+            <option value="-price" {% if request.GET.order == '-price' %}selected{% endif %}>Price ↓</option>
+            <option value="duration" {% if request.GET.order == 'duration' %}selected{% endif %}>Duration ↑</option>
+            <option value="-duration" {% if request.GET.order == '-duration' %}selected{% endif %}>Duration ↓</option>
+        </select>
+        <a class="btn btn-link btn-sm" href="{% url 'service_list' %}">Clear</a>
+    </div>
+</form>
 <!-- ================== CARD VIEW ================== -->
 
 <div class="services-grid">
-
-{% for s in data %}
-    <div class="service-card">
+{% if page_obj|length == 0 %}
+    <div class="alert alert-info">No services available. Create your first service.</div>
+{% endif %}
+{% for s in page_obj %}
+    <div class="service-card skeleton">
         <div class="card-image">
-            <img src="https://via.placeholder.com/400x300" alt="Service Image">
+            <img src="https://via.placeholder.com/400x300" alt="Service Image" loading="lazy" class="card-img">
         </div>
 
         <div class="card-content">
@@ -71,7 +111,7 @@
         <th>Action</th>
     </tr>
 
-    {% for s in data %}
+    {% for s in page_obj %}
     <tr>
         <td>{{ s.id }}</td>
         <td>{{ s.service_name }}</td>
@@ -96,5 +136,29 @@
     </tr>
     {% endfor %}
 </table>
+
+<nav aria-label="Pagination">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="{% if qstr %}?{{ qstr }}&page={{ page_obj.previous_page_number }}{% else %}?page={{ page_obj.previous_page_number }}{% endif %}">Prev</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Prev</span></li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <span class="page-link">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+        </li>
+
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{% if qstr %}?{{ qstr }}&page={{ page_obj.next_page_number }}{% else %}?page={{ page_obj.next_page_number }}{% endif %}">Next</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled"><span class="page-link">Next</span></li>
+        {% endif %}
+    </ul>
+</nav>
 
 {% endblock %}

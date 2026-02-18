@@ -125,6 +125,55 @@ body {
 }
 
 .footer {
+.alert {
+    transition: transform 160ms ease, opacity 160ms ease;
+}
+.alert.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+.alert {
+    transform: translateY(-4px);
+    opacity: 0.96;
+}
+.service-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+.service-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(16,24,40,0.12);
+}
+.card-image {
+    background: linear-gradient(90deg, #eef2ff, #f5f3ff);
+}
+.card-img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+.skeleton {
+    position: relative;
+}
+.skeleton .card-image,
+.skeleton .skeleton-line {
+    background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 37%, #e5e7eb 63%);
+    background-size: 400% 100%;
+    animation: shimmer 1.2s ease-in-out infinite;
+}
+.skeleton .skeleton-line {
+    height: 12px;
+    border-radius: 6px;
+    margin: 8px 0;
+}
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
 /* Form feedback */
 .invalid-feedback {
     color: #dc3545;
