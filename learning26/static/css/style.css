@@ -125,6 +125,13 @@ body {
 }
 
 .footer {
+/* Form feedback */
+.invalid-feedback {
+    color: #dc3545;
+}
+.is-invalid {
+    border-color: #dc3545;
+}
     background: linear-gradient(180deg, var(--nav-dark-1) 0%, var(--nav-dark-2) 100%);
     color: var(--nav-text);
     text-align: center;

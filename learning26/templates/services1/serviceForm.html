@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}Service Form{% endblock %}
 
@@ -11,12 +12,47 @@
     </div>
     <div class="page-header-actions">
         <a href="{% url 'service_list' %}" class="btn btn-outline btn-sm">Back to services</a>
+        <a href="{% url 'category_create' %}" class="btn btn-outline btn-sm">New category</a>
     </div>
 </div>
 
-<form method="post" class="stacked-cards">
+<form method="post" class="stacked-cards needs-validation" novalidate>
     {% csrf_token %}
-    {{ form.as_p }}
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ form.non_field_errors }}
+    </div>
+    {% endif %}
+
+    <div class="mb-3">
+        {{ form.service_name|as_crispy_field }}
+    </div>
+    <div class="mb-3">
+        {{ form.description|as_crispy_field }}
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            {{ form.price|as_crispy_field }}
+        </div>
+        <div class="col-md-4 mb-3">
+            {{ form.duration|as_crispy_field }}
+        </div>
+        <div class="col-md-4 mb-3">
+            {{ form.created_date|as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            {{ form.categoryId|as_crispy_field }}
+        </div>
+        <div class="col-md-3 mb-3 d-flex align-items-center">
+            {{ form.is_active|as_crispy_field }}
+        </div>
+        <div class="col-md-3 mb-3">
+            {{ form.discount|as_crispy_field }}
+        </div>
+    </div>
+
     <div>
         <button type="submit" class="btn btn-primary">Save service</button>
     </div>

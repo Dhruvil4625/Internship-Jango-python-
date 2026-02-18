@@ -14,8 +14,9 @@
 
         {% if request.path|slice:":10" == "/services1" %}
             <li class="nav-section">Services</li>
-            <li><a href="{% url 'service_list' %}">List</a></li>
+            <li><a href="{% url 'service_list' %}">All Services</a></li>
             <li><a href="{% url 'service_create' %}">Create</a></li>
+            <li><a href="{% url 'createService' %}">Create Service</a></li>
         {% endif %}
 
         {% if request.path|slice:":8" == "/student" %}

@@ -67,6 +67,8 @@ class Meta:
 def _str_(self):
     return self.categoryName
 
+
+
 class UserAccount(models.Model):
     username = models.CharField(max_length=100)
     email = models.EmailField(unique=True)

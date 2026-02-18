@@ -7,12 +7,59 @@
 <div class="page-header">
     <div>
         <h1 class="page-header-title">Services</h1>
-        <p class="page-header-subtitle">Manage offerings, pricing, duration, and status.</p>
+        <p class="page-header-subtitle">
+            Manage offerings, pricing, duration, and status.
+        </p>
     </div>
     <div class="page-header-actions">
-        <a href="{% url 'service_create' %}" class="btn btn-primary btn-sm">Create service</a>
+        <a href="{% url 'service_create' %}" class="btn btn-primary btn-sm">
+            Create service
+        </a>
     </div>
 </div>
+
+<!-- ================== CARD VIEW ================== -->
+
+<div class="services-grid">
+
+{% for s in data %}
+    <div class="service-card">
+        <div class="card-image">
+            <img src="https://via.placeholder.com/400x300" alt="Service Image">
+        </div>
+
+        <div class="card-content">
+            <span class="service-category">
+                {{ s.categoryId.categoryName }}
+            </span>
+            <h3 class="service-title">
+                {{ s.service_name }}
+            </h3>
+            <p><strong>Price:</strong> ₹ {{ s.price }}</p>
+            <p><strong>Duration:</strong> {{ s.duration }} days</p>
+
+            {% if s.is_active %}
+                <span class="badge badge-success">Active</span>
+            {% else %}
+                <span class="badge badge-danger">Inactive</span>
+            {% endif %}
+
+            <div class="btn-group mt-2">
+                <a href="{% url 'service_update' s.id %}" 
+                   class="btn btn-outline btn-sm">Update</a>
+
+                <a href="{% url 'service_delete' s.id %}" 
+                   class="btn btn-danger btn-sm">Delete</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+</div>
+
+<hr>
+
+<!-- ================== TABLE VIEW ================== -->
 
 <table class="table table-striped table-hover">
     <tr>
@@ -39,8 +86,11 @@
         </td>
         <td>
             <div class="btn-group">
-                <a href="{% url 'service_update' s.id %}" class="btn btn-outline btn-sm">Update</a>
-                <a href="{% url 'service_delete' s.id %}" class="btn btn-danger btn-sm">Delete</a>
+                <a href="{% url 'service_update' s.id %}" 
+                   class="btn btn-outline btn-sm">Update</a>
+
+                <a href="{% url 'service_delete' s.id %}" 
+                   class="btn btn-danger btn-sm">Delete</a>
             </div>
         </td>
     </tr>

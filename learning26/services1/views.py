@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Service
-from .forms import ServiceForm
+from .models import Service, Category
+from .forms import ServiceForm, CategoryForm
 
 
 # LIST
 def serviceList(request):
-    data = Service.objects.all()
-    return render(request, "services1/serviceList.html", {"data": data})
+    services = Service.objects.all()
+    return render(request, "services1/serviceList.html", {"data": services})
 
 
 # CREATE
@@ -17,7 +17,11 @@ def serviceCreate(request):
             form.save()
             return redirect("service_list")
     else:
-        form = ServiceForm()
+        cat_id = request.GET.get("categoryId")
+        if cat_id:
+            form = ServiceForm(initial={"categoryId": cat_id})
+        else:
+            form = ServiceForm()
 
     return render(request, "services1/serviceForm.html", {"form": form})
 
@@ -40,5 +44,34 @@ def serviceUpdate(request, id):
 # DELETE
 def serviceDelete(request, id):
     service = get_object_or_404(Service, id=id)
-    service.delete()
-    return redirect("service_list")
+    if request.method == "POST":
+        service.delete()
+        return redirect("service_list")
+    return render(request, "services1/serviceConfirmDelete.html", {"service": service})
+
+def createService(request):
+
+    if request.method =="POST":
+        form = ServiceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("service_list")
+        else:
+            return render(request,"services1/createService.html",{"form":form})    
+    else:
+        cat_id = request.GET.get("categoryId")
+        if cat_id:
+            form = ServiceForm(initial={"categoryId": cat_id})
+        else:
+            form = ServiceForm()
+        return render(request,"services1/createService.html",{"form":form})
+
+def categoryCreate(request):
+    if request.method == "POST":
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.save()
+            return redirect(f"/services1/create/?categoryId={category.id}")
+    else:
+        form = CategoryForm()
+    return render(request, "services1/categoryForm.html", {"form": form})

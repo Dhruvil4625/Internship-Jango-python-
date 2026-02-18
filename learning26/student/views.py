@@ -61,6 +61,3 @@ def studentNotices(request):
 
     return render(request, "student/studentNotices.html", data)
 
-
-
-    
