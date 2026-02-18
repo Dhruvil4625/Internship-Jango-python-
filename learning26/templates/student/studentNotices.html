@@ -3,12 +3,27 @@
 {% block title %}Student Notices{% endblock %}
 
 {% block content %}
-<h1>Student Notices</h1>
-{% if notices %}
-  {% for notice in notices %}
-    <p>{{ forloop.counter }}. {{ notice }}</p>
-  {% endfor %}
-{% else %}
-  <p>No notices available</p>
-{% endif %}
+<div class="page-header">
+    <div>
+        <h1 class="page-header-title">Notices</h1>
+        <p class="page-header-subtitle">Latest updates on tests, submissions, and internship activities.</p>
+    </div>
+</div>
+
+<div class="stacked-cards">
+    {% if notices %}
+        {% for notice in notices %}
+            <div class="card">
+                <h2>Notice {{ forloop.counter }}</h2>
+                <p>{{ notice }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="card">
+            <h2>No active notices</h2>
+            <p>There are currently no announcements. Check back before the next class or test.</p>
+        </div>
+    {% endif %}
+</div>
 {% endblock %}
+

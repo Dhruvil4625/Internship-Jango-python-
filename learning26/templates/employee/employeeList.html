@@ -4,9 +4,15 @@
 
 {% block content %}
 
-<h2>Employee List</h2>
-
-<a href="{% url 'employee_create' %}">Create Employee</a>
+<div class="page-header">
+    <div>
+        <h1 class="page-header-title">Employee Snapshot</h1>
+        <p class="page-header-subtitle">Quick view of key employees and salaries.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="{% url 'employee_create' %}" class="btn btn-primary btn-sm">Create employee</a>
+    </div>
+</div>
 
 <table class="table table-striped table-hover">
     <tr>
@@ -20,10 +26,12 @@
     <tr>
         <td>{{ emp.id }}</td>
         <td>{{ emp.name }}</td>
-        <td>{{ emp.salary }}</td>
+        <td>₹ {{ emp.salary }}</td>
         <td>
-            <a href="{% url 'employee_update' emp.id %}">Edit</a>
-            <a href="{% url 'employee_delete' emp.id %}">Delete</a>
+            <div class="btn-group">
+                <a href="{% url 'employee_update' emp.id %}" class="btn btn-outline btn-sm">Edit</a>
+                <a href="{% url 'employee_delete' emp.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
         </td>
     </tr>
     {% endfor %}

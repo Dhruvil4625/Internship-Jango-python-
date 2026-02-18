@@ -3,17 +3,28 @@
 {% block title %}Student Assignments{% endblock %}
 
 {% block content %}
-<h1>Assignments</h1>
-{% for a in assignments %}
-  <p>
-    {{ forloop.counter }}. {{ a.title }} —
-    {% if a.status == "Completed" %}
-      <span style="color: green;">Completed</span>
-    {% elif a.status == "Submitted" %}
-      <span style="color: blue;">Submitted</span>
-    {% else %}
-      <span style="color: red;">Pending</span>
-    {% endif %}
-  </p>
-{% endfor %}
+<div class="page-header">
+    <div>
+        <h1 class="page-header-title">Assignments</h1>
+        <p class="page-header-subtitle">Track progress across Python, ML, and project work.</p>
+    </div>
+</div>
+
+<div class="stacked-cards">
+    {% for a in assignments %}
+        <div class="card">
+            <h2>{{ forloop.counter }}. {{ a.title }}</h2>
+            <p>Submission window and evaluation details can be viewed in the LMS.</p>
+            <p>
+                {% if a.status == "Completed" %}
+                    <span class="badge badge-success">Completed</span>
+                {% elif a.status == "Submitted" %}
+                    <span class="badge badge-info">Submitted</span>
+                {% else %}
+                    <span class="badge badge-warning">Pending</span>
+                {% endif %}
+            </p>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}

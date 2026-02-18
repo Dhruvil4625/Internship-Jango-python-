@@ -1,31 +1,58 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>About Us</title>
-</head>
-<body>
-    <h1>Student Dashboard</h1>
-    <p>This page is loading correctly.</p>
-    <h1> Student Dashboard</h1>
+{% extends 'base.html' %}
 
-<p><strong>Name:</strong> {{ student_name }}</p>
-<p><strong>Student ID:</strong> {{ student_id }}</p>
-<p><strong>Status:</strong> {{ status }}</p>
-<p><strong>Overall Progress:</strong> {{ progress }}%</p>
+{% block title %}Student Dashboard{% endblock %}
 
-<hr>
+{% block content %}
 
-<h2> Enrolled Courses ({{ course_count }})</h2>
+<div class="page-header">
+    <div>
+        <h1 class="page-header-title">Student Dashboard</h1>
+        <p class="page-header-subtitle">Overview of your profile, progress, and enrolled courses.</p>
+    </div>
+    <div class="page-header-actions">
+        <span class="badge badge-info">ID {{ student_id }}</span>
+    </div>
+</div>
 
-{% for course in courses %}
-    <p>{{ forloop.counter }}. {{ course }}</p>
-{% endfor %}
-{% if progress >= 75 %}
-    <p style="color: green;"> Excellent progress, keep going!</p>
-{% else %}
-    <p style="color: orange;"> Keep practicing to improve</p>
-{% endif %}
+<div class="dashboard-grid">
+    <div class="card-metric">
+        <div class="card-metric-label">Student</div>
+        <div class="card-metric-value">{{ student_name }}</div>
+        <div class="card-metric-meta">Status: {{ status }}</div>
+    </div>
+    <div class="card-metric">
+        <div class="card-metric-label">Overall progress</div>
+        <div class="card-metric-value">{{ progress }}%</div>
+        <div class="progress-track">
+            <div class="progress-fill" style="width: {{ progress }}%;"></div>
+        </div>
+    </div>
+    <div class="card-metric">
+        <div class="card-metric-label">Active courses</div>
+        <div class="card-metric-value">{{ course_count }}</div>
+        <div class="card-metric-meta">AI and modern development stack</div>
+    </div>
+</div>
 
+<div class="stacked-cards">
+    <div class="card">
+        <h2>Enrolled courses</h2>
+        <p class="page-header-subtitle">You are currently enrolled in these learning paths:</p>
+        <div class="pill-list">
+            {% for course in courses %}
+                <span class="pill">{{ forloop.counter }}. {{ course }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="card">
+        <h2>Study suggestions</h2>
+        {% if progress >= 75 %}
+            <p>Excellent progress, keep going with advanced practice sets and small projects.</p>
+        {% else %}
+            <p>Focus on revising core concepts and complete pending assignments to improve your score.</p>
+        {% endif %}
+        <p>Block 1–2 hours a day for deep work on Python, ML, and Django practice.</p>
+    </div>
+</div>
 
-</body>
-</html>
+{% endblock %}

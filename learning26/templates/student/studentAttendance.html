@@ -3,14 +3,47 @@
 {% block title %}Student Attendance{% endblock %}
 
 {% block content %}
-<h1>Student Attendance</h1>
-<p>Total Classes: {{ total_classes }}</p>
-<p>Attended Classes: {{ attended_classes }}</p>
-<p>Attendance: {{ attendance_percentage }}%</p>
+<div class="page-header">
+    <div>
+        <h1 class="page-header-title">Attendance overview</h1>
+        <p class="page-header-subtitle">Keep attendance above the required threshold to stay exam-ready.</p>
+    </div>
+    <div class="page-header-actions">
+        {% if attendance_percentage >= 75 %}
+            <span class="badge badge-success">Eligible</span>
+        {% else %}
+            <span class="badge badge-danger">Not eligible</span>
+        {% endif %}
+    </div>
+</div>
 
-{% if attendance_percentage >= 75 %}
-  <h3 style="color: green;">Eligible for Exam</h3>
-{% else %}
-  <h3 style="color: red;">Not Eligible for Exam</h3>
-{% endif %}
+<div class="dashboard-grid">
+    <div class="card-metric">
+        <div class="card-metric-label">Total classes</div>
+        <div class="card-metric-value">{{ total_classes }}</div>
+    </div>
+    <div class="card-metric">
+        <div class="card-metric-label">Attended</div>
+        <div class="card-metric-value">{{ attended_classes }}</div>
+    </div>
+    <div class="card-metric">
+        <div class="card-metric-label">Attendance</div>
+        <div class="card-metric-value">{{ attendance_percentage }}%</div>
+        <div class="progress-track">
+            <div class="progress-fill" style="width: {{ attendance_percentage }}%;"></div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Attendance insights</h2>
+    {% if attendance_percentage >= 90 %}
+        <p>Your attendance is excellent. Keep maintaining this habit throughout the term.</p>
+    {% elif attendance_percentage >= 75 %}
+        <p>You are exam eligible, but try to attend a few more classes to build a buffer.</p>
+    {% else %}
+        <p>Your attendance is below the required level. Plan to attend upcoming sessions consistently.</p>
+    {% endif %}
+    <p>Mark important lecture days on your calendar and avoid missing key revision classes.</p>
+</div>
 {% endblock %}

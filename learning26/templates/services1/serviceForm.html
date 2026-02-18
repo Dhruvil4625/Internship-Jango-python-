@@ -4,15 +4,22 @@
 
 {% block content %}
 
+<div class="page-header">
+    <div>
+        <h1 class="page-header-title">Service details</h1>
+        <p class="page-header-subtitle">Create or update a service configuration.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="{% url 'service_list' %}" class="btn btn-outline btn-sm">Back to services</a>
+    </div>
+</div>
 
-<h2>Service Form</h2>
-
-<a href="{% url 'service_list' %}">Back</a>
-
-<form method="post">
+<form method="post" class="stacked-cards">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Save</button>
+    <div>
+        <button type="submit" class="btn btn-primary">Save service</button>
+    </div>
 </form>
 
 {% endblock %}

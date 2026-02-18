@@ -3,19 +3,23 @@
 {% block title %}Employee List{% endblock %}
 
 {% block content %}
-<h1>Employee List</h1>
+<div class="page-header">
+    <div>
+        <h1 class="page-header-title">Employee Directory</h1>
+        <p class="page-header-subtitle">Browse, sort, and manage all employees.</p>
+    </div>
+    <div class="page-header-actions">
+        <a href="{% url 'employee_filter' %}" class="btn btn-soft btn-sm">High salary filter</a>
+        <a href="{% url 'employee_create' %}" class="btn btn-primary btn-sm">Add employee</a>
+    </div>
+</div>
 
-<a href="{% url 'employee_create' %}">Create Employee</a> |
-<a href="{% url 'employee_filter' %}">Filter</a>
-
-<br><br>
-
-<b>Sort By:</b>
-<a href="?sort=id">ID ↑</a> |
-<a href="?sort=-id">ID ↓</a> |
-<a href="?sort=name">Name A-Z</a> |
-<a href="?sort=-name">Name Z-A</a>
-<br><br>
+<p><b>Sort by</b>:
+    <a href="?sort=id">ID ↑</a> |
+    <a href="?sort=-id">ID ↓</a> |
+    <a href="?sort=name">Name A-Z</a> |
+    <a href="?sort=-name">Name Z-A</a>
+</p>
 
 <table class="table table-striped table-hover">
     <tr>
@@ -33,12 +37,14 @@
         <td>{{ emp.id }}</td>
         <td>{{ emp.name }}</td>
         <td>{{ emp.age }}</td>
-        <td>{{ emp.salary }}</td>
+        <td>₹ {{ emp.salary }}</td>
         <td>{{ emp.join_date }}</td>
         <td>{{ emp.post }}</td>
         <td>
-            <a href="{% url 'employee_update' emp.id %}">Update</a> |
-            <a href="{% url 'employee_delete' emp.id %}">Delete</a>
+            <div class="btn-group">
+                <a href="{% url 'employee_update' emp.id %}" class="btn btn-outline btn-sm">Update</a>
+                <a href="{% url 'employee_delete' emp.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </div>
         </td>
     </tr>
     {% endfor %}
