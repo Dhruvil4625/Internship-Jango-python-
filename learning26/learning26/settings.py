@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "employee",
     "services1",
     'crispy_forms',
-    'crispy_bootstrap5'
+    'crispy_bootstrap5',
+    'core',
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
@@ -137,4 +138,4 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
+AUTH_USER_MODEL = "core.User"

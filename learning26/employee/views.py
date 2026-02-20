@@ -3,6 +3,7 @@ from .models import Employee
 from .forms import EmployeeForm
 
 
+
 # Show all employees (with sorting)
 def employeeList(request):
     data = Employee.objects.all()
@@ -53,3 +54,4 @@ def employeeDelete(request, id):
     emp = get_object_or_404(Employee, id=id)
     emp.delete()
     return redirect("employee_list")
+

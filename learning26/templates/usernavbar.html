@@ -32,5 +32,11 @@
             <li class="nav-section">Test1</li>
             <li><a href="/test/">Home</a></li>
         {% endif %}
+        {% if request.path|slice:":5" == "/core" %}
+            <li class="nav-section">Core</li>
+            <li><a href="/core/register/">Register</a></li>
+            <li><a href="/core/faculty/">Faculty List</a></li>
+            <li><a href="/core/student/">Student List</a></li>  
+        {% endif %}
     </ul>
 </nav>
